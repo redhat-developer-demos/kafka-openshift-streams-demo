@@ -68,7 +68,7 @@ The demonstration application assign values to the settings as follows:
 
 * `security.protocol="SASL_SSL"`
 * `sasl.mechanism="PLAIN"`
-* `sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="<USERNAME>" password="<PASSWORD>"'`
+* `sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="<"KAFKA_STREAM_USER_NAME>" password="<KAFKA_STREAM_PWD>"'`
 
 Essentially, the settings mean that the connection will use the SASL_SSL security protocol and that the SASL security mechanism will be PLAIN. The PLAIN security mechanism simplifies configuration for the purposes of this demonstration by letting you submit the username/password credentials as plain text. However, the connection string is submitted confidentially by lower level encryption as specified in [RFC4616](https://www.rfc-editor.org/rfc/rfc4616.html).
 
