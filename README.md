@@ -57,9 +57,24 @@ KAFKA_STREAM_BOOTSTRAP_SERVER=my-first-k-c-skxxxt--m--nhc-fna.bf2.kafka.rhcloud.
 
 You will substitute the values between the `<...>` brackets with values particular to your instance of OpenShift Kafka Streams.
 
-## Building the code
-TO BE PROVIDED
+## Configuring a secure connection to OpenShift Streams
+Getting the Java client to connect to OpenShift Stream requires special configuration settings for creating a secure connection. These configuration settings, which use the Simple Authentication and Security Layer (SASL) standard, are as follows (each setting is linked to a web page that describes the details of the setting):
 
+* [security.protocol](https://kafka.apache.org/24/javadoc/org/apache/kafka/common/security/auth/SecurityProtocol.html)
+* [sasl.mechanism](https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml)
+* [sasl.jass.config](https://www.iana.org/assignments/sasl-mechanisms/sasl-mechanisms.xhtml)
+
+The demonstration application assign values to the settings as follows:
+
+* `security.protocol="SASL_SSL"`
+* `sasl.mechanism="PLAIN"`
+* `sasl.jaas.config='org.apache.kafka.common.security.plain.PlainLoginModule required username="<USERNAME>" password="<PASSWORD>"'`
+
+Essentially, the settings mean that the connection will use the SASL_SSL security protocol and that the SASL security mechanism will be PLAIN. The PLAIN security mechanism simplifies configuration for the purposes of this demonstration by letting you submit the username/password credentials as plain text. However, the connection string is submitted confidentially by lower level encryption as specified in [RFC4616](https://www.rfc-editor.org/rfc/rfc4616.html).
+
+Since this article's demonstration application is dedicated to connecting to an instance of Kafka running remotely under OpenShift Streams, the required configuration settings are put directly into the code, in the addSecurityProperties method. The method is located in the `src/main/java/com/demo/kafka/PropertiesHelper.java` file of the demonstration application’s source code.
+
+Take a look at the [code](./src/main/java/com/demo/kafka/PropertiesHelper.java) so see how configuration is implemented. Notice that the values for the username and password are stored in the `KAFKA_STREAM_USER_NAME` and `KAFKA_STREAM_PWD` environment variables, respectively. Hence, the connection information is protected from intrusions into the server’s file system:
 ## Running the tests
 
 Make sure that you've properly configured the `.env` file with the values that are particular to your running instance of OpenShift Kafka Streams.
